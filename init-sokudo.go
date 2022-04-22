@@ -21,7 +21,7 @@ func initApplication() *application {
 	}
 
 	skd.AppName = "myapp"
-	skd.Debug = true
+	skd.InfoLog.Println("Debug is set to", skd.Debug)
 
 	app := &application{
 		App: skd,
