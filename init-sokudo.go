@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/petrostrak/sokudo"
+	"github.com/petrostrak/sokudo-helper/handlers"
 )
 
 func initApplication() *application {
@@ -21,11 +22,17 @@ func initApplication() *application {
 	}
 
 	skd.AppName = "myapp"
-	skd.InfoLog.Println("Debug is set to", skd.Debug)
 
-	app := &application{
+	myHandlers := &handlers.Handlers{
 		App: skd,
 	}
+
+	app := &application{
+		App:      skd,
+		Handlers: myHandlers,
+	}
+
+	app.App.Routes = app.routes()
 
 	return app
 }

@@ -2,10 +2,14 @@
 // to see running listened connections
 package main
 
-import "github.com/petrostrak/sokudo"
+import (
+	"github.com/petrostrak/sokudo"
+	"github.com/petrostrak/sokudo-helper/handlers"
+)
 
 type application struct {
-	App *sokudo.Sokudo
+	App      *sokudo.Sokudo
+	Handlers *handlers.Handlers
 }
 
 func main() {
