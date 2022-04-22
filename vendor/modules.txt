@@ -1,4 +1,7 @@
-# github.com/petrostrak/sokudo v0.0.0-20220422075034-99b6cb490f79 => ../sokudo-helper
+# github.com/joho/godotenv v1.4.0
+## explicit; go 1.12
+github.com/joho/godotenv
+# github.com/petrostrak/sokudo v0.0.0-20220422075034-99b6cb490f79 => ../sokudo
 ## explicit; go 1.18
 github.com/petrostrak/sokudo
-# github.com/petrostrak/sokudo => ../sokudo-helper
+# github.com/petrostrak/sokudo => ../sokudo
