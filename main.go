@@ -1,3 +1,5 @@
+// sudo lsof -i -P -n | grep LISTEN
+// to see running listened connections
 package main
 
 import "github.com/petrostrak/sokudo"
@@ -7,5 +9,6 @@ type application struct {
 }
 
 func main() {
-	initApplication()
+	s := initApplication()
+	s.App.ListenAndServe()
 }
