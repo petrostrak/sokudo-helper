@@ -7,9 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Sokudo: {{yield browserTitle()}}</title>
 
-    <link rel="apple-touch-icon" sizes="180x180" href="/public/ico/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/public/ico/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/public/ico/favicon-16x16.png">
+    <link rel="icon" type="image/jpg" sizes="32x32" href="/public/ico/favicon-32x32.jpg">
+    <link rel="icon" type="image/jpg" sizes="16x16" href="/public/ico/favicon-16x16.jpg">
     <link rel="manifest" href="/public/ico/site.webmanifest">
 
     <link href="//cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
