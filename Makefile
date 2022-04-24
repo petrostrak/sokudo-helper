@@ -22,6 +22,12 @@ test:
 	@go test ./...
 	@echo "Done!"
 
+start_compose:
+	sudo docker-compose up -d
+
+stop_compose:
+	sudo docker-compose down
+
 start: run
 
 stop:

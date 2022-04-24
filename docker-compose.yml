@@ -6,7 +6,7 @@ services:
   postgres:
     image: 'postgres:13.4'
     ports:
-      - "5432:5432"
+      - "5532:5532"
     restart: always
     environment:
       POSTGRES_USER: postgres
@@ -28,7 +28,7 @@ services:
   mariadb:
     image: 'mariadb:10.6'
     ports:
-      - "3306:3306"
+      - "3406:3406"
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: password
