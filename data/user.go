@@ -1,5 +1,7 @@
 package data
 
+import "time"
+
 type User struct {
 	ID        int       `db:"id,omitempty"`
 	FirstName string    `db:"first_name"`
