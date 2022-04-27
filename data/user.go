@@ -34,3 +34,29 @@ func (u *User) GetAll(condition up.Cond) ([]*User, error) {
 
 	return all, nil
 }
+
+func (u *User) GetByEmail(email string) (*User, error) {
+	var theUser User
+
+	collection := upper.Collection(u.Table())
+	res := collection.Find(up.Cond{"email =": email})
+
+	err := res.One(&theUser)
+	if err != nil {
+		return nil, err
+	}
+
+	var token Token
+	collection = upper.Collection(token.Table())
+	res = collection.Find(up.Cond{"user_id =": theUser.ID, "expiry <": time.Now()}).OrderBy("created_at desc")
+	err = res.One(&token)
+	if err != nil {
+		if err != up.ErrNilRecord && err != up.ErrNoMoreRows {
+			return nil, err
+		}
+	}
+
+	theUser.Token = token
+
+	return &theUser, nil
+}
