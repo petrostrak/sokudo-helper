@@ -85,3 +85,15 @@ func (u *User) Get(id int) (*User, error) {
 
 	return &theUser, nil
 }
+
+func (u *User) Update(theUser User) error {
+	theUser.UpdatedAt = time.Now()
+	collection := upper.Collection(u.Table())
+
+	res := collection.Find(theUser.ID)
+	if err := res.Update(&theUser); err != nil {
+		return err
+	}
+
+	return nil
+}
