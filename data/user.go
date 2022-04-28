@@ -3,6 +3,8 @@ package data
 import (
 	"time"
 
+	"golang.org/x/crypto/bcrypt"
+
 	up "github.com/upper/db/v4"
 )
 
@@ -107,4 +109,25 @@ func (u *User) Delete(id int) error {
 	}
 
 	return nil
+}
+
+func (u *User) Insert(theUser User) (int, error) {
+	newHash, err := bcrypt.GenerateFromPassword([]byte(theUser.Password), 12)
+	if err != nil {
+		return 0, err
+	}
+
+	theUser.CreatedAt = time.Now()
+	theUser.UpdatedAt = time.Now()
+	theUser.Password = string(newHash)
+
+	collection := upper.Collection(u.Table())
+	res, err := collection.Insert(theUser)
+	if err != nil {
+		return 0, err
+	}
+
+	id := getInsertID(res.ID)
+
+	return id, nil
 }
