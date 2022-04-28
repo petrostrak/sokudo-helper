@@ -97,3 +97,14 @@ func (u *User) Update(theUser User) error {
 
 	return nil
 }
+
+func (u *User) Delete(id int) error {
+	collection := upper.Collection(u.Table())
+	res := collection.Find(id)
+
+	if err := res.Delete(); err != nil {
+		return err
+	}
+
+	return nil
+}
