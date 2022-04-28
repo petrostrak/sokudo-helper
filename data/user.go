@@ -131,3 +131,23 @@ func (u *User) Insert(theUser User) (int, error) {
 
 	return id, nil
 }
+
+func (u *User) ResetPassword(id int, password string) error {
+	newHash, err := bcrypt.GenerateFromPassword([]byte(password), 12)
+	if err != nil {
+		return err
+	}
+
+	theUser, err := u.Get(id)
+	if err != nil {
+		return err
+	}
+
+	u.Password = string(newHash)
+	err = theUser.Update(*u)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
