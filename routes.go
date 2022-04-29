@@ -60,6 +60,25 @@ func (a *application) routes() *chi.Mux {
 		fmt.Fprintf(w, "%s %s %s", u.FirstName, u.LastName, u.Email)
 	})
 
+	a.App.Routes.Get("/update-user/{id}", func(w http.ResponseWriter, r *http.Request) {
+		id, _ := strconv.Atoi(chi.URLParam(r, "id"))
+
+		u, err := a.Models.Users.Get(id)
+		if err != nil {
+			a.App.ErrorLog.Println(err)
+			return
+		}
+
+		u.LastName = a.App.RandomString(10)
+		err = u.Update(*u)
+		if err != nil {
+			a.App.ErrorLog.Println(err)
+			return
+		}
+
+		fmt.Fprintf(w, "Updated last name to %s", u.LastName)
+	})
+
 	// static routes
 	fileServer := http.FileServer(http.Dir("./public"))
 	a.App.Routes.Handle("/public/*", http.StripPrefix("/public", fileServer))
