@@ -128,7 +128,7 @@ func (u *User) Insert(theUser User) (int, error) {
 		return 0, err
 	}
 
-	id := getInsertID(res.ID)
+	id := getInsertID(res.ID())
 
 	return id, nil
 }

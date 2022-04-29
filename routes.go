@@ -19,9 +19,9 @@ func (a *application) routes() *chi.Mux {
 
 	a.App.Routes.Get("/create-user", func(w http.ResponseWriter, r *http.Request) {
 		u := data.User{
-			FirstName: "petros",
+			FirstName: "pit",
 			LastName:  "trak",
-			Email:     "pit.trak@gmail.com",
+			Email:     "petros.trak@gmail.com",
 			Active:    1,
 			Password:  "password",
 		}
