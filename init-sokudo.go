@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/petrostrak/sokudo"
+	"github.com/petrostrak/sokudo-helper/data"
 	"github.com/petrostrak/sokudo-helper/handlers"
 )
 
@@ -33,6 +34,7 @@ func initApplication() *application {
 	}
 
 	app.App.Routes = app.routes()
+	app.Models = data.New(app.App.DB.Pool)
 
 	return app
 }
