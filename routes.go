@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/petrostrak/sokudo-helper/data"
@@ -45,6 +46,18 @@ func (a *application) routes() *chi.Mux {
 		for _, x := range users {
 			fmt.Fprint(w, x.FirstName)
 		}
+	})
+
+	a.App.Routes.Get("/get-user/{id}", func(w http.ResponseWriter, r *http.Request) {
+		id, _ := strconv.Atoi(chi.URLParam(r, "id"))
+
+		u, err := a.Models.Users.Get(id)
+		if err != nil {
+			a.App.ErrorLog.Println(err)
+			return
+		}
+
+		fmt.Fprintf(w, "%s %s %s", u.FirstName, u.LastName, u.Email)
 	})
 
 	// static routes
