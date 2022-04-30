@@ -5,10 +5,12 @@ import (
 
 	"github.com/CloudyKit/jet/v6"
 	"github.com/petrostrak/sokudo"
+	"github.com/petrostrak/sokudo-helper/data"
 )
 
 type Handlers struct {
-	App *sokudo.Sokudo
+	App    *sokudo.Sokudo
+	Models data.Models
 }
 
 func (h *Handlers) Home(w http.ResponseWriter, r *http.Request) {
