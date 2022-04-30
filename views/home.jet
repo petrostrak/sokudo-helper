@@ -14,6 +14,9 @@
             <h1>そくど (Jet Templates)</h1>
             <hr>
             <small class="text-muted">Go build something awesome</small>
+            {{if .IsAuthenticated}}
+                <small>Authenticated!<a href="/users/logout">Logout</a>.</small>
+            {{end}}
         </div>
     </div>
     <hr>
