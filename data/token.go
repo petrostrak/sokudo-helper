@@ -68,3 +68,15 @@ func (t *Token) Get(id int) (*Token, error) {
 
 	return &token, nil
 }
+
+func (t *Token) GetByToken(plainText string) (*Token, error) {
+	var token Token
+	collection := upper.Collection(t.Table())
+	res := collection.Find(up.Cond{"token": plainText})
+	err := res.One(&token)
+	if err != nil {
+		return nil, err
+	}
+
+	return &token, nil
+}
