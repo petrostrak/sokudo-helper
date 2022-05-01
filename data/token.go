@@ -1,6 +1,9 @@
 package data
 
 import (
+	"crypto/rand"
+	"crypto/sha256"
+	"encoding/base32"
 	"time"
 
 	up "github.com/upper/db/v4"
@@ -124,4 +127,23 @@ func (t *Token) Insert(token Token, u User) error {
 	}
 
 	return nil
+}
+
+func (t *Token) GenerateToken(userID int, ttl time.Duration) (*Token, error) {
+	token := &Token{
+		UserID:  userID,
+		Expires: time.Now().Add(ttl),
+	}
+
+	randomBytes := make([]byte, 16)
+	_, err := rand.Read(randomBytes)
+	if err != nil {
+		return nil, err
+	}
+
+	token.PlainText = base32.StdEncoding.WithPadding(base32.NoPadding).EncodeToString(randomBytes)
+	hash := sha256.Sum256([]byte(token.PlainText))
+	token.Hash = hash[:]
+
+	return token, nil
 }
