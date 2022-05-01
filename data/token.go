@@ -80,3 +80,14 @@ func (t *Token) GetByToken(plainText string) (*Token, error) {
 
 	return &token, nil
 }
+
+func (t *Token) Delete(id int) error {
+	collection := upper.Collection(t.Table())
+	res := collection.Find(id)
+	err := res.Delete()
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
