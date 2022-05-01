@@ -1,2 +1,4 @@
 vendor
-db-data/*
+db-data/mariadb
+db-data/postgres
+db-data/redis
