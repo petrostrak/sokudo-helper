@@ -4,6 +4,9 @@ import (
 	"crypto/rand"
 	"crypto/sha256"
 	"encoding/base32"
+	"errors"
+	"net/http"
+	"strings"
 	"time"
 
 	up "github.com/upper/db/v4"
@@ -146,4 +149,38 @@ func (t *Token) GenerateToken(userID int, ttl time.Duration) (*Token, error) {
 	token.Hash = hash[:]
 
 	return token, nil
+}
+
+func (t *Token) AuthenticateToken(r *http.Request) (*User, error) {
+	authorizationHeader := r.Header.Get("Authorization")
+	if authorizationHeader == "" {
+		return nil, errors.New("no authorization header received")
+	}
+
+	headerParts := strings.Split(authorizationHeader, " ")
+	if len(headerParts) != 2 || headerParts[0] != "Bearer" {
+		return nil, errors.New("no authorization header received")
+	}
+
+	token := headerParts[1]
+
+	if len(token) != 26 {
+		return nil, errors.New("token wrong size")
+	}
+
+	t, err := t.GetByToken(token)
+	if err != nil {
+		return nil, errors.New("no matching token found")
+	}
+
+	if t.Expires.Before(time.Now()) {
+		return nil, errors.New("expired token")
+	}
+
+	user, err := t.GetUserForToken(token)
+	if err != nil {
+		return nil, errors.New("no matching user found")
+	}
+
+	return user, nil
 }
