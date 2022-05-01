@@ -44,3 +44,15 @@ func (t *Token) GetUserForToken(token string) (*User, error) {
 
 	return &u, nil
 }
+
+func (t *Token) GetTokensForUser(id int) ([]*Token, error) {
+	var tokes []*Token
+	collection := upper.Collection(t.Table())
+	res := collection.Find(up.Cond{"user_id": id})
+	err := res.All(&tokes)
+	if err != nil {
+		return nil, err
+	}
+
+	return tokes, nil
+}
