@@ -91,3 +91,14 @@ func (t *Token) Delete(id int) error {
 
 	return nil
 }
+
+func (t *Token) DeleteByToken(plainText string) error {
+	collection := upper.Collection(t.Table())
+	res := collection.Find(up.Cond{"token": plainText})
+	err := res.Delete()
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
