@@ -151,7 +151,7 @@ func (t *Token) GenerateToken(userID int, ttl time.Duration) (*Token, error) {
 	return token, nil
 }
 
-func (t *Token) AuthenticateToken(r *http.Request) (*User, error) {
+func (tkn *Token) AuthenticateToken(r *http.Request) (*User, error) {
 	authorizationHeader := r.Header.Get("Authorization")
 	if authorizationHeader == "" {
 		return nil, errors.New("no authorization header received")
@@ -168,16 +168,16 @@ func (t *Token) AuthenticateToken(r *http.Request) (*User, error) {
 		return nil, errors.New("token wrong size")
 	}
 
-	t, err := t.GetByToken(token)
+	tkn, err := tkn.GetByToken(token)
 	if err != nil {
 		return nil, errors.New("no matching token found")
 	}
 
-	if t.Expires.Before(time.Now()) {
+	if tkn.Expires.Before(time.Now()) {
 		return nil, errors.New("expired token")
 	}
 
-	user, err := t.GetUserForToken(token)
+	user, err := tkn.GetUserForToken(token)
 	if err != nil {
 		return nil, errors.New("no matching user found")
 	}
