@@ -1,7 +1,7 @@
 //go:build integration
 
 // run tests with this command:
-// go test -v . --tags integration --count=1
+// go test . --tags integration --count=1
 package data
 
 import (
@@ -188,5 +188,16 @@ func TestUser_Insert(t *testing.T) {
 
 	if id == 0 {
 		t.Error("0 returned as id after insert")
+	}
+}
+
+func TestUser_Get(t *testing.T) {
+	u, err := models.Users.Get(1)
+	if err != nil {
+		t.Error("failed to get user: ", err)
+	}
+
+	if u.ID == 0 {
+		t.Error("id of returned user is 0: ", err)
 	}
 }
