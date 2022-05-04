@@ -1,3 +1,7 @@
+//go:build integration
+
+// run tests with this command:
+// go test -v . --tags integration --count=1
 package data
 
 import (
@@ -7,6 +11,9 @@ import (
 	"os"
 	"testing"
 
+	_ "github.com/jackc/pgconn"
+	_ "github.com/jackc/pgx/v4"
+	_ "github.com/jackc/pgx/v4/stdlib"
 	"github.com/ory/dockertest/v3"
 	"github.com/ory/dockertest/v3/docker"
 )
@@ -160,4 +167,11 @@ EXECUTE PROCEDURE trigger_set_timestamp();
 	}
 
 	return nil
+}
+
+func TestUser_Table(t *testing.T) {
+	s := models.Users.Table()
+	if s != "users" {
+		t.Errorf("wrong table name returned: %s", s)
+	}
 }
