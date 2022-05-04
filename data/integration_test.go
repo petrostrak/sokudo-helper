@@ -208,3 +208,14 @@ func TestUser_GetAll(t *testing.T) {
 		t.Error("failed to get user: ", err)
 	}
 }
+
+func TestUser_GetByEmail(t *testing.T) {
+	u, err := models.Users.GetByEmail("me@here.com")
+	if err != nil {
+		t.Error("failed to get user: ", err)
+	}
+
+	if u.ID == 0 {
+		t.Error("id of returned user is 0: ", err)
+	}
+}
