@@ -179,3 +179,14 @@ func TestUser_Table(t *testing.T) {
 		t.Errorf("wrong table name returned: %s", s)
 	}
 }
+
+func TestUser_Insert(t *testing.T) {
+	id, err := models.Users.Insert(dummyUser)
+	if err != nil {
+		t.Error("failed to insert user: ", err)
+	}
+
+	if id == 0 {
+		t.Error("0 returned as id after insert")
+	}
+}
