@@ -201,3 +201,10 @@ func TestUser_Get(t *testing.T) {
 		t.Error("id of returned user is 0: ", err)
 	}
 }
+
+func TestUser_GetAll(t *testing.T) {
+	_, err := models.Users.GetAll()
+	if err != nil {
+		t.Error("failed to get user: ", err)
+	}
+}
