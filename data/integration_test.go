@@ -78,6 +78,17 @@ func TestMain(m *testing.M) {
 		_ = pool.Purge(resource)
 		log.Fatalf("could not connect to docker: %s", err)
 	}
+
+	err = createTables(testDB)
+	if err != nil {
+		log.Fatalf("error creating tables: %s", err)
+	}
+
+	models = New(testDB)
+
+	code := m.Run()
+
+	os.Exit(code)
 }
 
 func createTables(db *sql.DB) error {
