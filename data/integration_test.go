@@ -219,3 +219,25 @@ func TestUser_GetByEmail(t *testing.T) {
 		t.Error("id of returned user is 0: ", err)
 	}
 }
+
+func TestUser_Update(t *testing.T) {
+	u, err := models.Users.Get(1)
+	if err != nil {
+		t.Error("failed to get user: ", err)
+	}
+
+	u.LastName = "Smith"
+	err = u.Update(*u)
+	if err != nil {
+		t.Error("failed to update user: ", err)
+	}
+
+	u, err = models.Users.Get(1)
+	if err != nil {
+		t.Error("failed to get user: ", err)
+	}
+
+	if u.LastName != "Smith" {
+		t.Error("last name not updated in database")
+	}
+}
