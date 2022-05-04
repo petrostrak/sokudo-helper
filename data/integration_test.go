@@ -95,6 +95,10 @@ func TestMain(m *testing.M) {
 
 	code := m.Run()
 
+	if err := pool.Purge(resource); err != nil {
+		log.Fatalf("could not purge resource: %s", err)
+	}
+
 	os.Exit(code)
 }
 
