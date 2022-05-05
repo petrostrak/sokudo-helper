@@ -356,3 +356,15 @@ func TestToken_GetTokensForUser(t *testing.T) {
 		t.Error("tokens returned for non-existent user")
 	}
 }
+
+func TestToken_Get(t *testing.T) {
+	u, err := models.Users.GetByEmail(dummyUser.Email)
+	if err != nil {
+		t.Error("failed to get user")
+	}
+
+	_, err = models.Tokens.Get(u.Token.ID)
+	if err != nil {
+		t.Error("error getting token by id: ", err)
+	}
+}
