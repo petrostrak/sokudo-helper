@@ -290,3 +290,10 @@ func TestUser_Delete(t *testing.T) {
 		t.Error("retrieved user who was supposed to be deleted")
 	}
 }
+
+func TestToken_Table(t *testing.T) {
+	s := models.Tokens.Table()
+	if s != "tokens" {
+		t.Error("wrong table name returned for tokens")
+	}
+}
