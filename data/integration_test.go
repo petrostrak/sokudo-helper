@@ -241,3 +241,28 @@ func TestUser_Update(t *testing.T) {
 		t.Error("last name not updated in database")
 	}
 }
+
+func TestUser_PasswordMatches(t *testing.T) {
+	u, err := models.Users.Get(1)
+	if err != nil {
+		t.Error("failed to get user: ", err)
+	}
+
+	matches, err := u.PasswordMatches("password")
+	if err != nil {
+		t.Error("error checking match:", err)
+	}
+
+	if !matches {
+		t.Error("password does match when it should")
+	}
+
+	matches, err = u.PasswordMatches("123")
+	if err != nil {
+		t.Error("error checking match:", err)
+	}
+
+	if matches {
+		t.Error("password matches when it should not")
+	}
+}
