@@ -266,3 +266,15 @@ func TestUser_PasswordMatches(t *testing.T) {
 		t.Error("password matches when it should not")
 	}
 }
+
+func TestUser_ResetPassword(t *testing.T) {
+	err := models.Users.ResetPassword(1, "new-password")
+	if err != nil {
+		t.Error("error reseting password", err)
+	}
+
+	err = models.Users.ResetPassword(2, "new-password")
+	if err == nil {
+		t.Error("did not get an error when trying to reset password for non-existing user")
+	}
+}
