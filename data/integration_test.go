@@ -327,3 +327,21 @@ func TestToken_Insert(t *testing.T) {
 		t.Error("error insering token: ", err)
 	}
 }
+
+func TestToken_GetUserForToken(t *testing.T) {
+	token := "abc"
+	_, err := models.Tokens.GetUserForToken(token)
+	if err == nil {
+		t.Error("error expected but not recieved when getting user with a bad token")
+	}
+
+	u, err := models.Users.GetByEmail(dummyUser.Email)
+	if err != nil {
+		t.Error("failed to get user")
+	}
+
+	_, err = models.Tokens.GetUserForToken(u.Token.PlainText)
+	if err != nil {
+		t.Error("failed to get user with valid token: ", err)
+	}
+}
