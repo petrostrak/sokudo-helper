@@ -345,3 +345,14 @@ func TestToken_GetUserForToken(t *testing.T) {
 		t.Error("failed to get user with valid token: ", err)
 	}
 }
+
+func TestToken_GetTokensForUser(t *testing.T) {
+	tokens, err := models.Tokens.GetTokensForUser(1)
+	if err != nil {
+		t.Error(err)
+	}
+
+	if len(tokens) > 0 {
+		t.Error("tokens returned for non-existent user")
+	}
+}
