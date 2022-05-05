@@ -297,3 +297,15 @@ func TestToken_Table(t *testing.T) {
 		t.Error("wrong table name returned for tokens")
 	}
 }
+
+func TestToken_GenerateToken(t *testing.T) {
+	id, err := models.Users.Insert(dummyUser)
+	if err != nil {
+		t.Error("error inserting user: ", err)
+	}
+
+	_, err = models.Tokens.GenerateToken(id, time.Hour*24*365)
+	if err != nil {
+		t.Error("error generating token: ", err)
+	}
+}
