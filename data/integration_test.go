@@ -278,3 +278,15 @@ func TestUser_ResetPassword(t *testing.T) {
 		t.Error("did not get an error when trying to reset password for non-existing user")
 	}
 }
+
+func TestUser_Delete(t *testing.T) {
+	err := models.Users.Delete(1)
+	if err != nil {
+		t.Error("failed to delete user:", err)
+	}
+
+	_, err = models.Users.Get(1)
+	if err == nil {
+		t.Error("retrieved user who was supposed to be deleted")
+	}
+}
