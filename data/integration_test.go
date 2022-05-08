@@ -427,3 +427,16 @@ func TestToken_AuthenticateToken(t *testing.T) {
 		}
 	}
 }
+
+func TestToken_Delete(t *testing.T) {
+	u, err := models.Users.GetByEmail(dummyUser.Email)
+	if err != nil {
+		t.Error(err)
+	}
+
+
+	err = models.Tokens.DeleteByToken(u.Token.PlainText)
+	if err != nil {
+		t.Error("error deleting token: ", err)
+	}
+}
