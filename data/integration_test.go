@@ -518,3 +518,10 @@ func TestToken_BadHeader(t *testing.T) {
 	}
 
 }
+
+func TestToken_DeleteNonExistentToken(t *testing.T) {
+	err := models.Tokens.DeleteByToken("abc")
+	if err != nil {
+		t.Error("error deleting token")
+	}
+}
