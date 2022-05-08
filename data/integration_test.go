@@ -525,3 +525,51 @@ func TestToken_DeleteNonExistentToken(t *testing.T) {
 		t.Error("error deleting token")
 	}
 }
+
+func TestToken_ValidToken(t *testing.T) {
+	u, err := models.Users.GetByEmail(dummyUser.Email)
+	if err != nil {
+		t.Error(err)
+	}
+
+	newToken, err := models.Tokens.GenerateToken(u.ID, 24*time.Hour)
+	if err != nil {
+		t.Error(err)
+	}
+
+	err = models.Tokens.Insert(*newToken, *u)
+	if err != nil {
+		t.Error(err)
+	}
+
+	okay, err := models.Tokens.ValidToken(newToken.PlainText)
+	if err != nil {
+		t.Error("error calling ValidToken: ", err)
+	}
+	if !okay {
+		t.Error("valid token reported as invalid")
+	}
+
+	okay, err = models.Tokens.ValidToken("abc")
+	if okay {
+		t.Error("invalid token reported as valid")
+	}
+
+	u, err = models.Users.GetByEmail(dummyUser.Email)
+	if err != nil {
+		t.Error(err)
+	}
+
+	err = models.Tokens.Delete(u.Token.ID)
+	if err != nil {
+		t.Error(err)
+	}
+
+	okay, err = models.Tokens.ValidToken(u.Token.PlainText)
+	if err == nil {
+		t.Error(err)
+	}
+	if okay {
+		t.Error("no error reported when validating non-existent token")
+	}
+}
