@@ -385,3 +385,45 @@ func TestToken_GetByToken(t *testing.T) {
 		t.Error("no error getting non-existing token by token: ", err)
 	}
 }
+
+var (
+	var authData = []struct {
+		name string
+		token string
+		email string
+		errorExpected bool
+		message string
+	}{
+		{"invalid", "abcdefghijklmnopqrstuvwxyz", "a@here.com", true, "invalid token accepted as valid"},
+		{"invalid_length", "abcdefghijklmnopqrstuvwxy", "a@here.com", true, "token of wrong length token accepted as valid"},
+		{"no_user", "abcdefghijklmnopqrstuvwxyz", "a@here.com", true, "no user, but token accepted as valid"},
+		{"valid", "", "me@here.com", false, "valid token reported as invalid"},
+	}
+)
+
+func TestToken_AuthenticateToken(t *testing.T) {
+	for _, tt := range authData {
+		token := ""
+		if tt.email == dummyUser.Email {
+			user, err := models.Users.GetByEmail(tt.email)
+			if err != nil {
+				t.Error("failed to get user: ", err)
+			}
+			token = user.Token.PlainText
+		} else {
+			token = tt.token
+		}
+
+		req, _ := http.NewRequest("GET", "/", nil)
+		req.Header.Add("Authorization", "Bearer " + token)
+
+		_, err := models.Tokens.AuthenticateToken(req)
+		if tt.errorExpected && err == nil {
+			t.Errorf("%s: %s", tt.name, tt.message)
+		} else if !tt.errorExpected && err != nil {
+			t.Errorf("%s: %s - %s", tt.name, tt.message, err)
+		} else {
+			t.Logf("passed %s", tt.name)
+		}
+	}
+}
