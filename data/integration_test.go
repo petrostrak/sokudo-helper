@@ -2,12 +2,16 @@
 
 // run tests with this command:
 // go test . --tags integration --count=1
+//
+// go test -coverprofile=coverage.out
+// go tool cover -html=coverage.out
 package data
 
 import (
 	"database/sql"
 	"fmt"
 	"log"
+	"net/http"
 	"os"
 	"testing"
 	"time"
@@ -44,6 +48,7 @@ var (
 
 func TestMain(m *testing.M) {
 	os.Setenv("DATABASE_TYPE", "postgres")
+	os.Setenv("UPPER_DB_LOG", "ERROR")
 
 	p, err := dockertest.NewPool("")
 	if err != nil {
@@ -387,12 +392,12 @@ func TestToken_GetByToken(t *testing.T) {
 }
 
 var (
-	var authData = []struct {
-		name string
-		token string
-		email string
+	authData = []struct {
+		name          string
+		token         string
+		email         string
 		errorExpected bool
-		message string
+		message       string
 	}{
 		{"invalid", "abcdefghijklmnopqrstuvwxyz", "a@here.com", true, "invalid token accepted as valid"},
 		{"invalid_length", "abcdefghijklmnopqrstuvwxy", "a@here.com", true, "token of wrong length token accepted as valid"},
@@ -415,7 +420,7 @@ func TestToken_AuthenticateToken(t *testing.T) {
 		}
 
 		req, _ := http.NewRequest("GET", "/", nil)
-		req.Header.Add("Authorization", "Bearer " + token)
+		req.Header.Add("Authorization", "Bearer "+token)
 
 		_, err := models.Tokens.AuthenticateToken(req)
 		if tt.errorExpected && err == nil {
@@ -433,7 +438,6 @@ func TestToken_Delete(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-
 
 	err = models.Tokens.DeleteByToken(u.Token.PlainText)
 	if err != nil {
@@ -459,7 +463,7 @@ func TestToken_ExpiredToken(t *testing.T) {
 	}
 
 	req, _ := http.NewRequest("GET", "/", nil)
-	req.Header.Add("Authorization", "Bearer " + token.PlainText)
+	req.Header.Add("Authorization", "Bearer "+token.PlainText)
 
 	_, err = models.Tokens.AuthenticateToken(req)
 	if err == nil {
@@ -476,18 +480,18 @@ func TestToken_BadHeader(t *testing.T) {
 	}
 
 	req, _ = http.NewRequest("GET", "/", nil)
-	req.Header.Add("Autorization", "abc")
+	req.Header.Add("Authorization", "abc")
 	_, err = models.Tokens.AuthenticateToken(req)
 	if err == nil {
 		t.Error("failed to catch bad auth header")
 	}
 
-	newUser := User {
+	newUser := User{
 		FirstName: "temp",
-		LastName: "temp_last",
-		Email: "you@there.com",
-		Active: 1,
-		Password: "abc",
+		LastName:  "temp_last",
+		Email:     "you@there.com",
+		Active:    1,
+		Password:  "abc",
 	}
 
 	id, err := models.Users.Insert(newUser)
@@ -511,7 +515,7 @@ func TestToken_BadHeader(t *testing.T) {
 	}
 
 	req, _ = http.NewRequest("GET", "/", nil)
-	req.Header.Add("Autorization", "Bearer " + token.PlainText)
+	req.Header.Add("Authorization", "Bearer "+token.PlainText)
 	_, err = models.Tokens.AuthenticateToken(req)
 	if err == nil {
 		t.Error("failed to catch token for deleted user")
@@ -550,7 +554,7 @@ func TestToken_ValidToken(t *testing.T) {
 		t.Error("valid token reported as invalid")
 	}
 
-	okay, err = models.Tokens.ValidToken("abc")
+	okay, _ = models.Tokens.ValidToken("abc")
 	if okay {
 		t.Error("invalid token reported as valid")
 	}
