@@ -440,3 +440,30 @@ func TestToken_Delete(t *testing.T) {
 		t.Error("error deleting token: ", err)
 	}
 }
+
+func TestToken_ExpiredToken(t *testing.T) {
+	// insert a token
+	u, err := models.Users.GetByEmail(dummyUser.Email)
+	if err != nil {
+		t.Error(err)
+	}
+
+	token, err := models.Tokens.GenerateToken(u.ID, -time.Hour)
+	if err != nil {
+		t.Error(err)
+	}
+
+	err = models.Tokens.Insert(*token, *u)
+	if err != nil {
+		t.Error(err)
+	}
+
+	req, _ := http.NewRequest("GET", "/", nil)
+	req.Header.Add("Authorization", "Bearer " + token.PlainText)
+
+	_, err = models.Tokens.AuthenticateToken(req)
+	if err == nil {
+		t.Error("failed to catch expired token")
+	}
+
+}
