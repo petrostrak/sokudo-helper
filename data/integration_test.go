@@ -467,3 +467,54 @@ func TestToken_ExpiredToken(t *testing.T) {
 	}
 
 }
+
+func TestToken_BadHeader(t *testing.T) {
+	req, _ := http.NewRequest("GET", "/", nil)
+	_, err := models.Tokens.AuthenticateToken(req)
+	if err == nil {
+		t.Error("failed to catch missing auth header")
+	}
+
+	req, _ = http.NewRequest("GET", "/", nil)
+	req.Header.Add("Autorization", "abc")
+	_, err = models.Tokens.AuthenticateToken(req)
+	if err == nil {
+		t.Error("failed to catch bad auth header")
+	}
+
+	newUser := User {
+		FirstName: "temp",
+		LastName: "temp_last",
+		Email: "you@there.com",
+		Active: 1,
+		Password: "abc",
+	}
+
+	id, err := models.Users.Insert(newUser)
+	if err != nil {
+		t.Error(err)
+	}
+
+	token, err := models.Tokens.GenerateToken(id, 1*time.Hour)
+	if err != nil {
+		t.Error(err)
+	}
+
+	err = models.Tokens.Insert(*token, newUser)
+	if err != nil {
+		t.Error(err)
+	}
+
+	err = models.Users.Delete(id)
+	if err != nil {
+		t.Error(err)
+	}
+
+	req, _ = http.NewRequest("GET", "/", nil)
+	req.Header.Add("Autorization", "Bearer " + token.PlainText)
+	_, err = models.Tokens.AuthenticateToken(req)
+	if err == nil {
+		t.Error("failed to catch token for deleted user")
+	}
+
+}
