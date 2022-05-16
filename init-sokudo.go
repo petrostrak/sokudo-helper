@@ -7,6 +7,7 @@ import (
 	"github.com/petrostrak/sokudo"
 	"github.com/petrostrak/sokudo-helper/data"
 	"github.com/petrostrak/sokudo-helper/handlers"
+	"github.com/petrostrak/sokudo-helper/middleware"
 )
 
 func initApplication() *application {
@@ -24,18 +25,24 @@ func initApplication() *application {
 
 	skd.AppName = "myapp"
 
+	myMiddleware := &middleware.Middleware{
+		App: skd,
+	}
+
 	myHandlers := &handlers.Handlers{
 		App: skd,
 	}
 
 	app := &application{
-		App:      skd,
-		Handlers: myHandlers,
+		App:        skd,
+		Handlers:   myHandlers,
+		Middleware: myMiddleware,
 	}
 
 	app.App.Routes = app.routes()
 	app.Models = data.New(app.App.DB.Pool)
 	myHandlers.Models = app.Models
+	app.Middleware.Models = app.Models
 
 	return app
 }

@@ -6,12 +6,14 @@ import (
 	"github.com/petrostrak/sokudo"
 	"github.com/petrostrak/sokudo-helper/data"
 	"github.com/petrostrak/sokudo-helper/handlers"
+	"github.com/petrostrak/sokudo-helper/middleware"
 )
 
 type application struct {
-	App      *sokudo.Sokudo
-	Handlers *handlers.Handlers
-	Models   data.Models
+	App        *sokudo.Sokudo
+	Handlers   *handlers.Handlers
+	Models     data.Models
+	Middleware *middleware.Middleware
 }
 
 func main() {
