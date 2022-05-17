@@ -50,6 +50,8 @@ func (h *Handlers) PostForm(w http.ResponseWriter, r *http.Request) {
 			h.App.ErrorLog.Println(err)
 			return
 		}
+
+		return
 	}
 
 	fmt.Fprint(w, "valid data")
