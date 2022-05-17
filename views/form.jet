@@ -1,4 +1,4 @@
-{{extends "./layouts/inside.jet"}}
+{{extends "./layouts/base.jet"}}
 
 {{block browserTitle()}}
 Form
