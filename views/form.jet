@@ -22,7 +22,7 @@ Form
         <input type="text" id="first_name" name="first_name"
                required="" autocomplete="last_name-new"
                value="{{user.FirstName}}"
-               class="form-control {{isset(validator.Errors["first_name"]) ? "is-invalid" : ""}}">
+               class='form-control {{isset(validator.Errors["first_name"]) ? "is-invalid" : ""}}'>
         <div class="invalid-feedback">
             {{isset(validator.Errors["first_name"]) ? validator.Errors["first_name"] : ""}}
         </div>
@@ -33,7 +33,7 @@ Form
         <input type="text" id="last_name" name="last_name"
                required="" autocomplete="last_name-new"
                value="{{user.LastName}}"
-               class="form-control {{isset(validator.Errors["last_name"]) ? "is-invalid" : ""}}">
+               class='form-control {{isset(validator.Errors["last_name"]) ? "is-invalid" : ""}}'>
         <div class="invalid-feedback">
             {{isset(validator.Errors["last_name"]) ? validator.Errors["last_name"] : ""}}
         </div>
@@ -44,7 +44,7 @@ Form
         <input type="email" id="email" name="email"
                required="" autocomplete="email-new"
                value="{{user.Email}}"
-               class="form-control {{isset(validator.Errors["email"]) ? "is-invalid" : ""}}">
+               class='form-control {{isset(validator.Errors["email"]) ? "is-invalid" : ""}}'>
         <div class="invalid-feedback">
             {{isset(validator.Errors["email"]) ? validator.Errors["email"] : ""}}
         </div>
