@@ -32,3 +32,7 @@ func (h *Handlers) sessionRenew(ctx context.Context) error {
 func (h *Handlers) sessionDestroy(ctx context.Context) error {
 	return h.App.Session.Destroy(ctx)
 }
+
+func (h *Handlers) randomString(n int) string {
+	return h.App.RandomString(n)
+}
