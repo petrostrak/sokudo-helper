@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/CloudyKit/jet/v6"
@@ -87,4 +88,27 @@ func (h *Handlers) XML(w http.ResponseWriter, r *http.Request) {
 
 func (h *Handlers) DownloadFile(w http.ResponseWriter, r *http.Request) {
 	h.App.DownloadFile(w, r, "./public/images/", "sokudo.jpg")
+}
+
+func (h *Handlers) TestCrypto(w http.ResponseWriter, r *http.Request) {
+	plainText := "Hello, world"
+
+	fmt.Fprint(w, "Unecrypted: "+plainText+"\n")
+	encrypted, err := h.encrypt(plainText)
+	if err != nil {
+		h.printError("cannot encrypt", err)
+		h.App.Error500(w, r)
+		return
+	}
+
+	fmt.Fprint(w, "Encrypted: "+encrypted+"\n")
+
+	decrypted, err := h.decrypt(encrypted)
+	if err != nil {
+		h.printError("cannot decrypt", err)
+		h.App.Error500(w, r)
+		return
+	}
+
+	fmt.Fprint(w, "Decrypted: "+decrypted+"\n")
 }
