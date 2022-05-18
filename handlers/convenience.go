@@ -3,6 +3,8 @@ package handlers
 import (
 	"context"
 	"net/http"
+
+	"github.com/petrostrak/sokudo"
 )
 
 func (h *Handlers) render(w http.ResponseWriter, r *http.Request, tmpl string, variables, data interface{}) error {
@@ -39,4 +41,15 @@ func (h *Handlers) randomString(n int) string {
 
 func (h *Handlers) printError(msg string, err error) {
 	h.App.ErrorLog.Println(msg, err)
+}
+
+func (h *Handlers) encrypt(text string) (string, error) {
+	enc := sokudo.Encryption{Key: []byte(h.App.EncryptionKey)}
+
+	encypted, err := enc.Encrypt(text)
+	if err != nil {
+		return "", err
+	}
+
+	return encypted, nil
 }
