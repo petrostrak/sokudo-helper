@@ -20,3 +20,7 @@ func (h *Handlers) sessionHas(ctx context.Context, key string) bool {
 func (h *Handlers) sessionGet(ctx context.Context, key string) interface{} {
 	return h.App.Session.Get(ctx, key)
 }
+
+func (h *Handlers) sessionRemove(ctx context.Context, key string) {
+	h.App.Session.Remove(ctx, key)
+}
