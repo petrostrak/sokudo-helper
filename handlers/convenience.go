@@ -24,3 +24,7 @@ func (h *Handlers) sessionGet(ctx context.Context, key string) interface{} {
 func (h *Handlers) sessionRemove(ctx context.Context, key string) {
 	h.App.Session.Remove(ctx, key)
 }
+
+func (h *Handlers) sessionRenew(ctx context.Context) error {
+	return h.App.Session.RenewToken(ctx)
+}
