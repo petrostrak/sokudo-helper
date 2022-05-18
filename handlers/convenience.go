@@ -53,3 +53,14 @@ func (h *Handlers) encrypt(text string) (string, error) {
 
 	return encypted, nil
 }
+
+func (h *Handlers) decrypt(crypto string) (string, error) {
+	enc := sokudo.Encryption{Key: []byte(h.App.EncryptionKey)}
+
+	encypted, err := enc.Decrypt(crypto)
+	if err != nil {
+		return "", err
+	}
+
+	return encypted, nil
+}
