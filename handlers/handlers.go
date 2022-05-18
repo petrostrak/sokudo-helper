@@ -83,3 +83,7 @@ func (h *Handlers) XML(w http.ResponseWriter, r *http.Request) {
 		h.printError("cannot write to JSON", err)
 	}
 }
+
+func (h *Handlers) DownloadFile(w http.ResponseWriter, r *http.Request) {
+	h.App.DownloadFile(w, r, "./public/images/", "sokudo.jpg")
+}
