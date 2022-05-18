@@ -68,19 +68,20 @@ func (h *Handlers) JSON(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *Handlers) XML(w http.ResponseWriter, r *http.Request) {
-	var payload struct {
+	type Payload struct {
 		ID      int64    `xml:"id"`
 		Name    string   `xml:"name"`
 		Hobbies []string `xml:"hobbies>hobby"`
 	}
 
+	var payload Payload
 	payload.ID = 10
 	payload.Name = "pet trak"
 	payload.Hobbies = []string{"karate", "tennis", "programming"}
 
 	err := h.App.WriteXML(w, http.StatusOK, payload)
 	if err != nil {
-		h.printError("cannot write to JSON", err)
+		h.printError("cannot write to XML", err)
 	}
 }
 
