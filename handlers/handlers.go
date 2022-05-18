@@ -37,7 +37,7 @@ func (h *Handlers) JetPage(w http.ResponseWriter, r *http.Request) {
 func (h *Handlers) SessioTest(w http.ResponseWriter, r *http.Request) {
 	myData := "bar"
 
-	h.App.Session.Put(r.Context(), "foo", myData)
+	h.sessionPut(r.Context(), "foo", myData)
 
 	myValue := h.App.Session.GetString(r.Context(), "foo")
 
