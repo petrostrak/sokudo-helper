@@ -36,3 +36,7 @@ func (h *Handlers) sessionDestroy(ctx context.Context) error {
 func (h *Handlers) randomString(n int) string {
 	return h.App.RandomString(n)
 }
+
+func (h *Handlers) printError(msg string, err error) {
+	h.App.ErrorLog.Println(msg, err)
+}

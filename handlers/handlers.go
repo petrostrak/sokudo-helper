@@ -15,21 +15,21 @@ type Handlers struct {
 
 func (h *Handlers) Home(w http.ResponseWriter, r *http.Request) {
 	if err := h.render(w, r, "home", nil, nil); err != nil {
-		h.App.ErrorLog.Println("error rendering:", err)
+		h.printError("error rendering:", err)
 	}
 
 }
 
 func (h *Handlers) GoPage(w http.ResponseWriter, r *http.Request) {
 	if err := h.App.Render.GoPage(w, r, "home", nil); err != nil {
-		h.App.ErrorLog.Println("error rendering:", err)
+		h.printError("error rendering:", err)
 	}
 
 }
 
 func (h *Handlers) JetPage(w http.ResponseWriter, r *http.Request) {
 	if err := h.App.Render.JetPage(w, r, "jet-template", nil, nil); err != nil {
-		h.App.ErrorLog.Println("error rendering:", err)
+		h.printError("error rendering:", err)
 	}
 
 }
@@ -45,7 +45,7 @@ func (h *Handlers) SessioTest(w http.ResponseWriter, r *http.Request) {
 	vars.Set("foo", myValue)
 
 	if err := h.App.Render.JetPage(w, r, "sessions", vars, nil); err != nil {
-		h.App.ErrorLog.Println("error rendering:", err)
+		h.printError("error rendering:", err)
 	}
 
 }
