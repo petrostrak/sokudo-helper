@@ -38,7 +38,44 @@ func (h *Handlers) SaveInCache(w http.ResponseWriter, r *http.Request) {
 	_ = h.App.WriteJson(w, http.StatusCreated, resp)
 }
 
-func (h *Handlers) GetFromCache(w http.ResponseWriter, r *http.Request) {}
+func (h *Handlers) GetFromCache(w http.ResponseWriter, r *http.Request) {
+	var msg string
+	var inCache = true
+
+	var userInput struct {
+		Name string `json:"name"`
+		CSRF string `json:"csrf_token"`
+	}
+
+	err := h.App.ReadJSON(w, r, &userInput)
+	if err != nil {
+		h.App.Error500(w, r)
+		return
+	}
+
+	fromCache, err := h.App.Cache.Get(userInput.Name)
+	if err != nil {
+		msg = "Not found in cache!"
+		inCache = false
+	}
+
+	var resp struct {
+		Error   bool   `json:"error"`
+		Message string `json:"message"`
+		Value   string `json:"value"`
+	}
+
+	if inCache {
+		resp.Error = false
+		resp.Message = "success"
+		resp.Value = fromCache.(string)
+	} else {
+		resp.Error = true
+		resp.Message = msg
+	}
+
+	_ = h.App.WriteJson(w, http.StatusCreated, resp)
+}
 
 func (h *Handlers) DeleteFromCache(w http.ResponseWriter, r *http.Request) {}
 
