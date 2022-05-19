@@ -1,6 +1,10 @@
 package handlers
 
-import "net/http"
+import (
+	"net/http"
+
+	"github.com/justinas/nosurf"
+)
 
 func (h *Handlers) ShowCachePage(w http.ResponseWriter, r *http.Request) {
 	if err := h.render(w, r, "cache", nil, nil); err != nil {
@@ -17,6 +21,11 @@ func (h *Handlers) SaveInCache(w http.ResponseWriter, r *http.Request) {
 
 	err := h.App.ReadJSON(w, r, &userInput)
 	if err != nil {
+		h.App.Error500(w, r)
+		return
+	}
+
+	if !nosurf.VerifyToken(nosurf.Token(r), userInput.CSRF) {
 		h.App.Error500(w, r)
 		return
 	}
@@ -49,6 +58,11 @@ func (h *Handlers) GetFromCache(w http.ResponseWriter, r *http.Request) {
 
 	err := h.App.ReadJSON(w, r, &userInput)
 	if err != nil {
+		h.App.Error500(w, r)
+		return
+	}
+
+	if !nosurf.VerifyToken(nosurf.Token(r), userInput.CSRF) {
 		h.App.Error500(w, r)
 		return
 	}
@@ -89,6 +103,11 @@ func (h *Handlers) DeleteFromCache(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if !nosurf.VerifyToken(nosurf.Token(r), userInput.CSRF) {
+		h.App.Error500(w, r)
+		return
+	}
+
 	err = h.App.Cache.Forget(userInput.Name)
 	if err != nil {
 		h.App.Error500(w, r)
@@ -113,6 +132,11 @@ func (h *Handlers) EmptyCache(w http.ResponseWriter, r *http.Request) {
 
 	err := h.App.ReadJSON(w, r, &userInput)
 	if err != nil {
+		h.App.Error500(w, r)
+		return
+	}
+
+	if !nosurf.VerifyToken(nosurf.Token(r), userInput.CSRF) {
 		h.App.Error500(w, r)
 		return
 	}
