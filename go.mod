@@ -10,6 +10,7 @@ require (
 	github.com/go-chi/chi/v5 v5.0.7
 	github.com/jackc/pgconn v1.12.0
 	github.com/jackc/pgx/v4 v4.16.0
+	github.com/justinas/nosurf v1.1.1
 	github.com/ory/dockertest/v3 v3.8.1
 	github.com/petrostrak/sokudo v0.0.0-20220422075034-99b6cb490f79
 	github.com/upper/db/v4 v4.5.2
@@ -47,7 +48,6 @@ require (
 	github.com/jackc/pgservicefile v0.0.0-20200714003250-2b9c44734f2b // indirect
 	github.com/jackc/pgtype v1.11.0 // indirect
 	github.com/joho/godotenv v1.4.0 // indirect
-	github.com/justinas/nosurf v1.1.1 // indirect
 	github.com/lib/pq v1.10.5 // indirect
 	github.com/mitchellh/mapstructure v1.4.1 // indirect
 	github.com/moby/term v0.0.0-20210619224110-3f7ff695adc6 // indirect
