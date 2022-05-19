@@ -106,4 +106,30 @@ func (h *Handlers) DeleteFromCache(w http.ResponseWriter, r *http.Request) {
 	_ = h.App.WriteJson(w, http.StatusCreated, resp)
 }
 
-func (h *Handlers) EmptyCache(w http.ResponseWriter, r *http.Request) {}
+func (h *Handlers) EmptyCache(w http.ResponseWriter, r *http.Request) {
+	var userInput struct {
+		CSRF string `json:"csrf_token"`
+	}
+
+	err := h.App.ReadJSON(w, r, &userInput)
+	if err != nil {
+		h.App.Error500(w, r)
+		return
+	}
+
+	err = h.App.Cache.Empty()
+	if err != nil {
+		h.App.Error500(w, r)
+		return
+	}
+
+	var resp struct {
+		Error   bool   `json:"error"`
+		Message string `json:"message"`
+	}
+
+	resp.Error = false
+	resp.Message = "emptied cache"
+
+	_ = h.App.WriteJson(w, http.StatusCreated, resp)
+}
