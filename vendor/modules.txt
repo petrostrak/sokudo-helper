@@ -85,6 +85,9 @@ github.com/golang-migrate/migrate/v4/internal/url
 github.com/golang-migrate/migrate/v4/source
 github.com/golang-migrate/migrate/v4/source/file
 github.com/golang-migrate/migrate/v4/source/iofs
+# github.com/gomodule/redigo v1.8.8
+## explicit; go 1.16
+github.com/gomodule/redigo/redis
 # github.com/google/shlex v0.0.0-20191202100458-e7afc7fbc510
 ## explicit; go 1.13
 github.com/google/shlex
@@ -178,6 +181,7 @@ github.com/ory/dockertest/v3/docker/types/versions
 # github.com/petrostrak/sokudo v0.0.0-20220422075034-99b6cb490f79 => ../sokudo
 ## explicit; go 1.18
 github.com/petrostrak/sokudo
+github.com/petrostrak/sokudo/cache
 github.com/petrostrak/sokudo/render
 github.com/petrostrak/sokudo/session
 # github.com/pkg/errors v0.9.1
