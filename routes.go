@@ -53,6 +53,13 @@ func (a *application) routes() *chi.Mux {
 		if res.Error != nil {
 			a.App.ErrorLog.Println(res.Error)
 		}
+		// err := a.App.Mail.SendSMTPMessage(msg)
+		// if err != nil {
+		// 	a.App.ErrorLog.Println(err)
+		// 	return
+		// }
+
+		fmt.Fprintf(w, "email sent")
 	})
 
 	a.get("/create-user", func(w http.ResponseWriter, r *http.Request) {
