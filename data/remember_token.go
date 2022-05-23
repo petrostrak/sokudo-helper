@@ -13,3 +13,20 @@ type RememberToken struct {
 func (t *RememberToken) Table() string {
 	return "remember_tokens"
 }
+
+func (t *RememberToken) InsertToken(userID int, token string) error {
+	collection := upper.Collection(t.Table())
+	rememberToken := RememberToken{
+		UserID:        userID,
+		RememberToken: token,
+		CreatedAt:     time.Now(),
+		UpdatedAt:     time.Now(),
+	}
+
+	_, err := collection.Insert(rememberToken)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
