@@ -7,6 +7,7 @@ replace github.com/petrostrak/sokudo => ../sokudo
 require (
 	github.com/CloudyKit/jet/v6 v6.1.0
 	github.com/DATA-DOG/go-sqlmock v1.5.0
+	github.com/bwmarrin/go-alone v0.0.0-20190806015146-742bb55d1631
 	github.com/go-chi/chi/v5 v5.0.7
 	github.com/jackc/pgconn v1.12.0
 	github.com/jackc/pgx/v4 v4.16.0
@@ -31,7 +32,6 @@ require (
 	github.com/alexedwards/scs/v2 v2.5.0 // indirect
 	github.com/andybalholm/cascadia v1.1.0 // indirect
 	github.com/asaskevich/govalidator v0.0.0-20210307081110-f21760c49a8d // indirect
-	github.com/bwmarrin/go-alone v0.0.0-20190806015146-742bb55d1631 // indirect
 	github.com/cenkalti/backoff/v4 v4.1.2 // indirect
 	github.com/cespare/xxhash v1.1.0 // indirect
 	github.com/cespare/xxhash/v2 v2.1.2 // indirect
