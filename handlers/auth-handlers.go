@@ -119,3 +119,11 @@ func (h *Handlers) UserLogout(w http.ResponseWriter, r *http.Request) {
 
 	http.Redirect(w, r, "/users/login", http.StatusSeeOther)
 }
+
+func (h *Handlers) Forgot(w http.ResponseWriter, r *http.Request) {
+	err := h.render(w, r, "forgot", nil, nil)
+	if err != nil {
+		h.App.ErrorLog.Println("Error rendering:", err)
+		h.App.Error500(w, r)
+	}
+}
