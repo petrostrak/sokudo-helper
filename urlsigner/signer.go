@@ -3,6 +3,8 @@ package urlsigner
 import (
 	"fmt"
 	"strings"
+
+	goalone "github.com/bwmarrin/go-alone"
 )
 
 type Signer struct {
@@ -22,5 +24,5 @@ func (s *Signer) GenerateTokenFromString(data string) string {
 
 	tokenBytes := crypt.Sign([]byte(urlToSign))
 
-	return string(urlToSign)
+	return string(tokenBytes)
 }
