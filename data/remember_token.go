@@ -1,6 +1,10 @@
 package data
 
-import "time"
+import (
+	"time"
+
+	up "github.com/upper/db/v4"
+)
 
 type RememberToken struct {
 	ID            int       `db:"id,omitempty"`
@@ -24,6 +28,18 @@ func (t *RememberToken) InsertToken(userID int, token string) error {
 	}
 
 	_, err := collection.Insert(rememberToken)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (t *RememberToken) Delete(rememberToken string) error {
+	collection := upper.Collection(t.Table())
+	res := collection.Find(up.Cond{"remember_token": rememberToken})
+
+	err := res.Delete()
 	if err != nil {
 		return err
 	}
