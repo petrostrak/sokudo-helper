@@ -26,3 +26,13 @@ func (s *Signer) GenerateTokenFromString(data string) string {
 
 	return string(tokenBytes)
 }
+
+func (s *Signer) VerifyToken(token string) bool {
+	crypt := goalone.New(s.Secret, goalone.Timestamp)
+	_, err := crypt.Unsign([]byte(token))
+	if err != nil {
+		return false
+	}
+
+	return true
+}
